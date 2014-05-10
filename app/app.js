@@ -1,2 +1,7 @@
-var HelloCtrl = function($scope){
+ng-ngApp('hello'){
+
 };
+angular.module('hello', [])
+    .controller('HelloCtrl', function($scope){
+        $scope.thing = {name : 'World'};
+    });

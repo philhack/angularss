@@ -8,11 +8,23 @@
     <script src="lib/angularjs/angular.js"></script>
     <script src="app/app.js"></script>
 </head>
-<body ng-app ng-init="thing = {name : 'World'}">
-    <h1>Hello, {{thing.name}}</h1>
+<body ng-app>
+
     <div ng-controller="HelloCtrl">
+        <h1>Hello, {{thing.name}}</h1>
         Say hello to <input type="type" ng-model="thing.name">
         <h2>Hello, {{thing.name}}!</h2>
     </div>
+
+<div class="container" ng-controller="TextAreaWithLimitCtrl">
+    <div class="row">
+        <textarea ng-model="message">{{message}}</textarea>
+    </div>
+    <div class="row">
+        <button ng-disabled="!hasValidLength()" ng-click="send()">Send</button>
+        <button ng-click="clear()">Clear</button>
+    </div>
+    <span>Remaining: {{remaining()}}</span>
+</div>
 </body>
 </html>
