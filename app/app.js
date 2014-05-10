@@ -1,7 +1,20 @@
-ng-ngApp('hello'){
+var app = angular.module('healthunleashed', ['ngRoute']);
 
-};
-angular.module('hello', [])
-    .controller('HelloCtrl', function($scope){
-        $scope.thing = {name : 'World'};
-    });
+    app.config(['$routeProvider', function($routeProvider) {
+        console.log($routeProvider)
+        $routeProvider.
+            when('/login', {
+                templateUrl: '../partials/tpl-login.html',
+                controller: LoginCtrl
+            }).
+            when('/logout', {
+                templateUrl: '../partials/tpl-logout.html',
+                controller: LogoutCtrl
+            }).
+            when('/register', {
+                templateUrl: '../partials/tpl-register.html',
+                controller: RegisterCtrl}).
+            otherwise({
+                redirectTo: '/'
+            });
+    }]);

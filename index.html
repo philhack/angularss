@@ -5,26 +5,26 @@
     <title></title>
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap-theme.css" />
-    <script src="lib/angularjs/angular.js"></script>
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular/angular-resource.js"></script>
+    <script src="lib/angular/angular-route.js"></script>
     <script src="app/app.js"></script>
+    <script src="app/controllers.js"></script>
 </head>
-<body ng-app>
-
-    <div ng-controller="HelloCtrl">
-        <h1>Hello, {{thing.name}}</h1>
-        Say hello to <input type="type" ng-model="thing.name">
-        <h2>Hello, {{thing.name}}!</h2>
+<body ng-app="healthunleashed">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <ul class="nav">
+                    <li><a href="/#login">Login</a></li>
+                    <li><a href="/#logout">Logout</a></li>
+                    <li><a href="/#register">Register</a></li>
+                </ul>
+            </div>
+            <div class="col-md-9">
+                <div ng-view></div>
+            </div>
+        </div>
     </div>
-
-<div class="container" ng-controller="TextAreaWithLimitCtrl">
-    <div class="row">
-        <textarea ng-model="message">{{message}}</textarea>
-    </div>
-    <div class="row">
-        <button ng-disabled="!hasValidLength()" ng-click="send()">Send</button>
-        <button ng-click="clear()">Clear</button>
-    </div>
-    <span>Remaining: {{remaining()}}</span>
-</div>
 </body>
 </html>
