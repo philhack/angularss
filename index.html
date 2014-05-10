@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <title></title>
     <script src="lib/angularjs/angular.js"></script>
+    <script src="app/app.js"></script>
 </head>
-<body ng-app ng-init="name = 'World'">
-    Say hello to : <input type="text" ng-model="name">
-    <h1>Hello, {{name}}!</h1>
+<body ng-app ng-init="thing = {name : 'World'}">
+    <h1>Hello, {{thing.name}}</h1>
+    <div ng-controller="HelloCtrl">
+        Say hello to <input type="type" ng-model="thing.name">
+        <h2>Hello, {{thing.name}}!</h2>
+    </div>
 </body>
 </html>

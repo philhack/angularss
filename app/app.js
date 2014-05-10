@@ -1,0 +1,2 @@
+var HelloCtrl = function($scope){
+};
