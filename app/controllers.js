@@ -1,12 +1,14 @@
-
-function LoginCtrl($scope){
+huApp.controller('LoginController', ['$scope', function($scope){
     console.log('Login Controller')
-}
+    $scope.message = 'Logging in.';
+}]);
 
-function LogoutCtrl($scope){
+huApp.controller('LogoutController', ['$scope', function($scope){
     console.log('Logout Controller')
-}
+    $scope.message = 'Logging out.';
+}]);
 
-function RegisterCtrl($scope){
+huApp.controller('RegisterController', ['$scope', function($scope){
     console.log('Register Controller')
-}
+    $scope.message = 'Registering.';
+}]);
