@@ -21,7 +21,30 @@ huApp.controller('AuthenticationController', ['$scope', '$http', function($scope
             RememberMe : true
 
     };
-    var result = $http.post('http://localhost/api/auth/credentials', user);
-    console.log(result)
+    $http.post('http://localhost/api/auth/credentials', user)
+        .success(function(data, status, headers, config){
+            alert('Authenticated');
+            console.log('post success');
+            console.log('data');
+            console.log(data);
+            console.log('status');
+            console.log(status);
+            console.log('headers');
+            console.log(headers);
+            console.log('config');
+            console.log(config);
+        })
+        .error(function(data, status, headers, config){
+            alert('Failed to authenticate');
+            console.log('post fail');
+            console.log('data');
+            console.log(data);
+            console.log('status');
+            console.log(status);
+            console.log('headers');
+            console.log(headers);
+            console.log('config');
+            console.log(config);
+        });
     $scope.message = 'Registering.';
 }]);
