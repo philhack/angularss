@@ -1,2 +1,11 @@
 <h1>Login Partial</h1>
 <p>{{ message }}</p>
+<div ng-controller="AuthenticationController">
+    <form>
+        <label>username:</label>
+        <input type="text" name="username" ng-model="user.username" />
+        <label>password:</label>
+        <input type="password" name="password" ng-model="user.password" />
+        <button ng-click="login(user)" class="btn">Login</button>
+    </form>
+</div>

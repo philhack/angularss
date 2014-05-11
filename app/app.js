@@ -6,7 +6,7 @@ huApp.config(['$routeProvider', '$locationProvider',
     $routeProvider.
         when('/login', {
             templateUrl: '../partials/tpl-login.html',
-            controller: 'LoginController'
+            controller: 'AuthenticationController'
         }).
         when('/logout', {
             templateUrl: '../partials/tpl-logout.html',
