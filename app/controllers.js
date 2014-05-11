@@ -29,7 +29,7 @@ huApp.controller('AuthenticationController', ['$scope', '$http', function($scope
     $scope.login = function (user){
         console.log('Authentication Controller')
         user.RememberMe = false;
-        $http.post('http://localhost/api/auth/credentials', user)
+        $http.post('http://localhost/api/auth/credentials?format=json', user)
         .success(function(data, status, headers, config){
             logHttpResultToConsole(data, status, headers, config);
             alert('Authenticated');
@@ -42,7 +42,7 @@ huApp.controller('AuthenticationController', ['$scope', '$http', function($scope
     };
 
     $scope.logout = function(){
-        $http.get('http://localhost/api/auth/logout')
+        $http.post('http://localhost/api/auth/logout', {provider : "logout"})
             .success(function(data, status, headers, config){
                 $scope.user = null;
                 logHttpResultToConsole(data, status, headers, config);
