@@ -46,7 +46,7 @@ huApp.controller('AuthenticationController', ['$scope', '$http', '$cookieStore',
             .success(function(data, status, headers, config){
                 $scope.user = null;
 
-                $cookieStore.remove('ss-id'); // Remove the cookie
+                //$cookieStore.remove('ss-id'); // Remove the cookie
                 $state.transitionTo('login'); // Redirect to login state
 
                 logHttpResultToConsole(data, status, headers, config);
@@ -56,5 +56,34 @@ huApp.controller('AuthenticationController', ['$scope', '$http', '$cookieStore',
                 logHttpResultToConsole(data, status, headers, config);
                 alert('Error logging out');
             });
+    };
+
+    $scope.viewcookie = function(){
+        $cookieStore.put('myAngularCookie','help');
+        var ssCookie = $cookieStore.get('ss-id');
+        var helpCookie = $cookieStore.get('myAngularCookie');
+        /*var helpCookie = $cookies['help'];
+        var ssCookie = $cookies['ss-id']*/
+        console.log('SS Cookie');
+        console.log(ssCookie);
+        console.log('Angular Help Cookie');
+        console.log(helpCookie);
+        alert(ssCookie);
+        alert(helpCookie);
+    };
+
+    $scope.removecookies = function(){
+        console.log('Deleting Help Cookie')
+        $cookieStore.remove('ss-id');
+        $cookieStore.remove('myAngularCookie');
+        alert('Cookies Removed');
+        /*var helpCookie = $cookies['help'];
+        alert(helpCookie);
+        delete $cookies['help'];
+
+        console.log('Deleting ServiceStack Cookie')
+        var ssCookie = $cookies['ss-id'];
+        alert(ssCookie);
+        delete $cookies['ss-id'];*/
     };
 }]);
