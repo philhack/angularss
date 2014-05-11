@@ -1,6 +1,7 @@
 var huApp = angular.module('huApp', ['ngRoute']);
 
-huApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+huApp.config(['$routeProvider', '$locationProvider',
+                function($routeProvider, $locationProvider) {
     console.log($routeProvider)
     $routeProvider.
         when('/login', {
@@ -18,4 +19,5 @@ huApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $l
             redirectTo: '/'
         });
     $locationProvider.html5Mode(true);
+
 }]);

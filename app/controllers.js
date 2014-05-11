@@ -12,3 +12,16 @@ huApp.controller('RegisterController', ['$scope', function($scope){
     console.log('Register Controller')
     $scope.message = 'Registering.';
 }]);
+
+huApp.controller('AuthenticationController', ['$scope', '$http', function($scope, $http){
+    console.log('Authentication Controller')
+    var user =  {
+            UserName : 'philhack',
+            Password : 'password1',
+            RememberMe : true
+
+    };
+    var result = $http.post('http://localhost/api/auth/credentials', user);
+    console.log(result)
+    $scope.message = 'Registering.';
+}]);
