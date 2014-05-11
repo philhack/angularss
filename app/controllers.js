@@ -14,32 +14,28 @@ huApp.controller('RegisterController', ['$scope', function($scope){
 }]);
 
 huApp.controller('AuthenticationController', ['$scope', '$http', function($scope, $http){
+    function logHttpResultToConsole(data, status, headers, config) {
+        console.log('post success');
+        console.log('data');
+        console.log(data);
+        console.log('status');
+        console.log(status);
+        console.log('headers');
+        console.log(headers);
+        console.log('config');
+        console.log(config);
+    }
+
     $scope.login = function (user){
-    console.log('Authentication Controller')
-    $http.post('http://localhost/api/auth/credentials', user)
+        console.log('Authentication Controller')
+        $http.post('http://localhost/api/auth/credentials', user)
         .success(function(data, status, headers, config){
+            logHttpResultToConsole(data, status, headers, config);
             alert('Authenticated');
-            console.log('post success');
-            console.log('data');
-            console.log(data);
-            console.log('status');
-            console.log(status);
-            console.log('headers');
-            console.log(headers);
-            console.log('config');
-            console.log(config);
         })
         .error(function(data, status, headers, config){
+            logHttpResultToConsole(data, status, headers, config);
             alert('Failed to authenticate');
-            console.log('post fail');
-            console.log('data');
-            console.log(data);
-            console.log('status');
-            console.log(status);
-            console.log('headers');
-            console.log(headers);
-            console.log('config');
-            console.log(config);
         });
         $scope.message = 'Registering.';
     };
