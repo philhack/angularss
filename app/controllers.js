@@ -13,7 +13,7 @@ huApp.controller('RegisterController', ['$scope', function($scope){
     $scope.message = 'Registering.';
 }]);
 
-huApp.controller('AuthenticationController', ['$scope', '$http', function($scope, $http){
+huApp.controller('AuthenticationController', ['$scope', '$http', '$cookieStore', '$state', function($scope, $http, $cookieStore, $state){
     function logHttpResultToConsole(data, status, headers, config) {
         console.log('post success');
         console.log('data');
@@ -45,6 +45,10 @@ huApp.controller('AuthenticationController', ['$scope', '$http', function($scope
         $http.post('http://localhost/api/auth/logout', {provider : "logout"})
             .success(function(data, status, headers, config){
                 $scope.user = null;
+
+                $cookieStore.remove('ss-id'); // Remove the cookie
+                $state.transitionTo('login'); // Redirect to login state
+
                 logHttpResultToConsole(data, status, headers, config);
                 alert('Logged Out');
             })
