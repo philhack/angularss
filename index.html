@@ -14,10 +14,10 @@
 <body ng-app="huApp">
     <div class="container">
         <div class="row">
-            <div class="col-md-3" ng-controller="AuthenticationController">
-                <ul class="nav">
+            <div class="col-md-3">
+                <ul class="nav" ng-controller="AuthenticationController">
                     <li><a href="/#login">Login</a></li>
-                    <li><a href="/#logout">Logout</a></li>
+                    <li><a href="#" ng-click="logout()">Logout</a></li>
                     <li><a href="/#register">Register</a></li>
                 </ul>
             </div>

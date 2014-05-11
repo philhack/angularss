@@ -1,11 +1,17 @@
 <h1>Login Partial</h1>
 <p>{{ message }}</p>
-<div ng-controller="AuthenticationController">
+<div>
     <form>
-        <label>username:</label>
-        <input type="text" name="username" ng-model="user.username" />
-        <label>password:</label>
-        <input type="password" name="password" ng-model="user.password" />
-        <button ng-click="login(user)" class="btn">Login</button>
+        <div class="row">
+            <label>username:</label>
+            <input type="text" name="username" ng-model="user.username" />
+        </div>
+        <div class="row">
+            <label>password:</label>
+            <input type="password" name="password" ng-model="user.password" />
+        </div>
+        <div class="row">
+            <button ng-click="login(user)" class="btn btn-primary">Login</button>
+        </div>
     </form>
 </div>
