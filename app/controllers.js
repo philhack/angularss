@@ -17,7 +17,7 @@ huApp.controller('RegisterController', ['$scope', function($scope){
     $scope.message = 'Registering.';
 }]);
 
-huApp.controller('AuthenticationController', ['$scope', '$http', '$state', function($scope, $http, $state){
+huApp.controller('AuthenticationController', ['$scope', '$http', '$state', 'huAppConfig', function($scope, $http, $state, huAppConfig){
     function logHttpResultToConsole(data, status, headers, config) {
         console.log('data');
         console.log(data);
@@ -30,9 +30,10 @@ huApp.controller('AuthenticationController', ['$scope', '$http', '$state', funct
     }
 
     $scope.login = function (user){
+        var url = huAppConfig.apiBaseUri + '/auth/credentials?format=json';
         console.log('Authentication Controller')
         user.RememberMe = false;
-        $http.post('http://localhost/api/auth/credentials?format=json', user)
+        $http.post(url, user)
         .success(function(data, status, headers, config){
             logHttpResultToConsole(data, status, headers, config);
             alert('Authenticated');
@@ -46,22 +47,24 @@ huApp.controller('AuthenticationController', ['$scope', '$http', '$state', funct
     };
 
     $scope.logout = function(){
-        $http.post('http://localhost/api/auth/logout', {provider : "logout"})
-            .success(function(data, status, headers, config){
-                $scope.user = null;
-                $state.transitionTo('login'); // Redirect to login state
+        var url = huAppConfig.apiBaseUri + '/auth/logout';
+        $http.post(url, {provider : "logout"})
+        .success(function(data, status, headers, config){
+            $scope.user = null;
+            $state.transitionTo('login'); // Redirect to login state
 
-                logHttpResultToConsole(data, status, headers, config);
-                alert('Logged Out');
-            })
-            .error(function(data, status, headers, config){
-                logHttpResultToConsole(data, status, headers, config);
-                alert('Error logging out');
-            });
+            logHttpResultToConsole(data, status, headers, config);
+            alert('Logged Out');
+        })
+        .error(function(data, status, headers, config){
+            logHttpResultToConsole(data, status, headers, config);
+            alert('Error logging out');
+        });
     };
 
     $scope.register = function(user){
-        $http.post('http://localhost/api/register', user)
+        var url = huAppConfig.apiBaseUri + '/register'
+        $http.post(url, user)
             .success(function(data, status, headers, config){
                 alert('Registered');
                 $state.transitionTo('profile');
