@@ -20,9 +20,13 @@ huApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$htt
             templateUrl: "partials/tpl-profile.html",
             controller: "ProfileController"
         })
+        .state('public.404', {
+            url: '/404',
+            templateUrl: 'partials/tpl-404.html',
+            controller: "404Controller"
+        });
     $locationProvider.html5Mode(true);
-
-    // Interceptor from: https://github.com/fnakstad/angular-client-side-auth
+                    // Interceptor from: https://github.com/fnakstad/angular-client-side-auth
     $httpProvider.interceptors.push(function($q, $location) {
         return {
             'responseError': function(response) {

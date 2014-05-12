@@ -8,6 +8,10 @@ huApp.controller('ProfileController', ['$scope', function($scope){
     $scope.message = 'Welcome Authenticated User';
 }]);
 
+huApp.controller('404Controller', ['$scope', function($scope){
+    console.log('404 Controller')
+}]);
+
 huApp.controller('RegisterController', ['$scope', function($scope){
     console.log('Register Controller')
     $scope.message = 'Registering.';
