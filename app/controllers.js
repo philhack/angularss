@@ -59,4 +59,15 @@ huApp.controller('AuthenticationController', ['$scope', '$http', '$state', funct
                 alert('Error logging out');
             });
     };
+
+    $scope.register = function(user){
+        $http.post('http://localhost/api/register', user)
+            .success(function(data, status, headers, config){
+                alert('Registered');
+                $state.transitionTo('profile');
+            })
+            .error(function(data, status, headers, config){
+                alert('Error attempting to register');
+            });
+    };
 }]);
