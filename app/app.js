@@ -1,6 +1,5 @@
 var huApp = angular.module('huApp', ['ngRoute', 'ngCookies', 'ui.router']);
 
-
 huApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
                 function($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider.otherwise("/");

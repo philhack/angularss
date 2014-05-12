@@ -13,9 +13,8 @@ huApp.controller('RegisterController', ['$scope', function($scope){
     $scope.message = 'Registering.';
 }]);
 
-huApp.controller('AuthenticationController', ['$scope', '$http', '$cookieStore', '$state', function($scope, $http, $cookieStore, $state){
+huApp.controller('AuthenticationController', ['$scope', '$http', '$state', function($scope, $http, $state){
     function logHttpResultToConsole(data, status, headers, config) {
-        console.log('post success');
         console.log('data');
         console.log(data);
         console.log('status');
@@ -45,8 +44,6 @@ huApp.controller('AuthenticationController', ['$scope', '$http', '$cookieStore',
         $http.post('http://localhost/api/auth/logout', {provider : "logout"})
             .success(function(data, status, headers, config){
                 $scope.user = null;
-
-                //$cookieStore.remove('ss-id'); // Remove the cookie
                 $state.transitionTo('login'); // Redirect to login state
 
                 logHttpResultToConsole(data, status, headers, config);
@@ -56,34 +53,5 @@ huApp.controller('AuthenticationController', ['$scope', '$http', '$cookieStore',
                 logHttpResultToConsole(data, status, headers, config);
                 alert('Error logging out');
             });
-    };
-
-    $scope.viewcookie = function(){
-        $cookieStore.put('myAngularCookie','help');
-        var ssCookie = $cookieStore.get('ss-id');
-        var helpCookie = $cookieStore.get('myAngularCookie');
-        /*var helpCookie = $cookies['help'];
-        var ssCookie = $cookies['ss-id']*/
-        console.log('SS Cookie');
-        console.log(ssCookie);
-        console.log('Angular Help Cookie');
-        console.log(helpCookie);
-        alert(ssCookie);
-        alert(helpCookie);
-    };
-
-    $scope.removecookies = function(){
-        console.log('Deleting Help Cookie')
-        $cookieStore.remove('ss-id');
-        $cookieStore.remove('myAngularCookie');
-        alert('Cookies Removed');
-        /*var helpCookie = $cookies['help'];
-        alert(helpCookie);
-        delete $cookies['help'];
-
-        console.log('Deleting ServiceStack Cookie')
-        var ssCookie = $cookies['ss-id'];
-        alert(ssCookie);
-        delete $cookies['ss-id'];*/
     };
 }]);
