@@ -3,9 +3,9 @@ huApp.controller('LoginController', ['$scope', function($scope){
     $scope.message = 'Logging in.';
 }]);
 
-huApp.controller('LogoutController', ['$scope', function($scope){
-    console.log('Logout Controller')
-    $scope.message = 'Logging out.';
+huApp.controller('ProfileController', ['$scope', function($scope){
+    console.log('Profile Controller')
+    $scope.message = 'Welcome Authenticated User';
 }]);
 
 huApp.controller('RegisterController', ['$scope', function($scope){
@@ -32,6 +32,7 @@ huApp.controller('AuthenticationController', ['$scope', '$http', '$state', funct
         .success(function(data, status, headers, config){
             logHttpResultToConsole(data, status, headers, config);
             alert('Authenticated');
+            $state.transitionTo('profile');
         })
         .error(function(data, status, headers, config){
             logHttpResultToConsole(data, status, headers, config);

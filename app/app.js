@@ -15,8 +15,14 @@ huApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$htt
             templateUrl: "partials/tpl-register.html",
             controller: "AuthenticationController"
         })
+        .state('profile', {
+            url:"/profile",
+            templateUrl: "partials/tpl-profile.html",
+            controller: "ProfileController"
+        })
     $locationProvider.html5Mode(true);
 
+    // Interceptor from: https://github.com/fnakstad/angular-client-side-auth
     $httpProvider.interceptors.push(function($q, $location) {
         return {
             'responseError': function(response) {
