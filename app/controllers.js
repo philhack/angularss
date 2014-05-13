@@ -30,20 +30,24 @@ huApp.controller('AuthenticationController', ['$scope', '$http', '$state', 'huAp
     }
 
     $scope.login = function (user){
-        var url = huAppConfig.apiBaseUri + '/auth/credentials?format=json';
-        console.log('Authentication Controller')
-        user.RememberMe = false;
-        $http.post(url, user)
-        .success(function(data, status, headers, config){
-            logHttpResultToConsole(data, status, headers, config);
-            alert('Authenticated');
-            $state.transitionTo('profile');
-        })
-        .error(function(data, status, headers, config){
-            logHttpResultToConsole(data, status, headers, config);
-            alert('Failed to authenticate');
-        });
-        $scope.message = 'Registering.';
+        $scope.submitted = true;
+
+        if($scope.loginForm.$valid){
+            var url = huAppConfig.apiBaseUri + '/auth/credentials?format=json';
+            console.log('Authentication Controller')
+            user.RememberMe = false;
+            $http.post(url, user)
+                .success(function(data, status, headers, config){
+                    logHttpResultToConsole(data, status, headers, config);
+                    alert('Authenticated');
+                    $state.transitionTo('profile');
+                })
+                .error(function(data, status, headers, config){
+                    logHttpResultToConsole(data, status, headers, config);
+                    alert('Failed to authenticate');
+                });
+            $scope.message = 'Registering.';
+        }
     };
 
     $scope.logout = function(){
