@@ -1,21 +1,22 @@
 <h1>Register Partial</h1>
 <p>{{ message }}</p>
 <div>
-    <form>
-        <div class="row">
+    <form name="registrationForm" ng-submit="register(user)" novalidate>
+        <div class="form-group"  ng-class="{ 'has-error' : (registrationForm.username.$invalid && (registrationForm.username.$pristine || !registrationForm.username.$pristine)) && submitted }">
             <label>username:</label>
-            <input type="text" name="username" ng-model="user.username" required placeholder="username" />
+            <input type="text" name="username" class="form-control" ng-model="user.username" required placeholder="username" />
+            <p ng-show="(registrationForm.username.$invalid && (registrationForm.username.$pristine || !registrationForm.username.$pristine)) && submitted" class="help-block">UserName is required</p>
         </div>
-        <div class="row">
+        <div class="form-group" ng-class="{ 'has-error' : (registrationForm.email.$invalid && (registrationForm.email.$pristine || !registrationForm.email.$pristine)) && submitted }">
             <label>email:</label>
-            <input type="email" name="email" ng-model="user.email" required placeholder="email@something.com" />
+            <input type="email" name="email" class="form-control" ng-model="user.email" required placeholder="email@something.com" />
+            <p ng-show="(registrationForm.email.$invalid && (registrationForm.email.$pristine || !registrationForm.email.$pristine)) && submitted" class="help-block">Email Address is required and must be valid. eg: email@something.com</p>
         </div>
-        <div class="row">
+        <div class="form-group" ng-class="{ 'has-error' : (registrationForm.password.$invalid && (registrationForm.password.$pristine || !registrationForm.password.$pristine)) && submitted }">
             <label>password:</label>
-            <input type="password" name="password" ng-model="user.password" required placeholder="password" />
+            <input type="password" name="password" class="form-control" ng-model="user.password" required placeholder="password" />
+            <p ng-show="(registrationForm.password.$invalid && (registrationForm.password.$pristine || !registrationForm.password.$pristine)) && submitted" class="help-block">Password is Required</p>
         </div>
-        <div class="row">
-            <button ng-click="register(user)" class="btn btn-primary">Register</button>
-        </div>
+            <button type="submit" class="btn btn-primary">Register</button>
     </form>
 </div>

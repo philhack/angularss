@@ -67,14 +67,19 @@ huApp.controller('AuthenticationController', ['$scope', '$http', '$state', 'huAp
     };
 
     $scope.register = function(user){
-        var url = huAppConfig.apiBaseUri + '/register'
-        $http.post(url, user)
-            .success(function(data, status, headers, config){
-                alert('Registered');
-                $state.transitionTo('profile');
-            })
-            .error(function(data, status, headers, config){
-                alert('Error attempting to register');
-            });
+        $scope.submitted = true;
+        console.log('registrationFormValid = ' + $scope.registrationForm.$valid)
+
+        if($scope.registrationForm.$valid) {
+            var url = huAppConfig.apiBaseUri + '/register'
+            $http.post(url, user)
+                .success(function (data, status, headers, config) {
+                    alert('Registered');
+                    $state.transitionTo('profile');
+                })
+                .error(function (data, status, headers, config) {
+                    alert('Error attempting to register');
+                });
+        }
     };
 }]);
