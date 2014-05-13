@@ -14,8 +14,9 @@
         </div>
         <div class="form-group" ng-class="{ 'has-error' : (registrationForm.password.$invalid && (registrationForm.password.$pristine || !registrationForm.password.$pristine)) && submitted }">
             <label>password:</label>
-            <input type="password" name="password" class="form-control" ng-model="user.password" required placeholder="password" />
+            <input type="password" name="password" class="form-control" ng-model="user.password" required ng-minlength="4" ng-maxlength="20" placeholder="password" />
             <p ng-show="(registrationForm.password.$invalid && (registrationForm.password.$pristine || !registrationForm.password.$pristine)) && submitted" class="help-block">Password is Required</p>
+            <p ng-show="(registrationForm.password.$error.minlength || registrationForm.password.$error.maxlength) && submitted" class="help-block">Password must be between 4 and 20 characters.</p>
         </div>
             <button type="submit" class="btn btn-primary">Register</button>
     </form>
