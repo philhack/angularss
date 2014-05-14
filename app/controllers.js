@@ -43,8 +43,8 @@ huApp.controller('AuthenticationController', ['$scope', '$http', '$state', 'huAp
                     $state.transitionTo('profile');
                 })
                 .error(function(data, status, headers, config){
+                    $scope.errorMessage = data.ResponseStatus.Message;
                     logHttpResultToConsole(data, status, headers, config);
-                    alert('Failed to authenticate');
                 });
             $scope.message = 'Registering.';
         }

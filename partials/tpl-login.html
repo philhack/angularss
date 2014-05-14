@@ -12,6 +12,9 @@
             <input type="password" name="password" class="form-control" ng-model="user.password" required />
             <p ng-show="(loginForm.password.$invalid && (loginForm.password.$pristine || loginForm.password.$dirty)) && submitted" class="help-block">Password is required</p>
         </div>
+        <div ng-class="{ 'has-error' : errorMessage != null }">
+            <p ng-show="errorMessage != null" class="help-block">{{errorMessage}}</p>
+        </div>
             <button type="submit" class="btn btn-primary">Login</button>
     </form>
 </div>
