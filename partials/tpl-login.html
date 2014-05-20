@@ -1,5 +1,4 @@
 <h1>Login Partial</h1>
-<p>{{ message }}</p>
 <div>
     <form name="loginForm" ng-submit="login(user)" novalidate>
         <div class="form-group" ng-class="{ 'has-error' : (loginForm.username.$invalid && (loginForm.username.$pristine || loginForm.username.$dirty)) && submitted }">
