@@ -70,16 +70,24 @@ huApp.controller('AuthenticationController', ['$scope', '$http', '$state', 'huAp
         $scope.submitted = true;
         console.log('registrationFormValid = ' + $scope.registrationForm.$valid)
 
-        if($scope.registrationForm.$valid) {
-            var url = huAppConfig.apiBaseUri + '/register'
-            $http.post(url, user)
-                .success(function (data, status, headers, config) {
-                    alert('Registered');
-                    $state.transitionTo('profile');
-                })
-                .error(function (data, status, headers, config) {
-                    alert('Error attempting to register');
-                });
+        if(user.confirmPassword != user.password) {
+            $scope.passwordConfirmationFailed = true;   //TODO: Replace with ui-validate or a directive
+        } else {
+            $scope.passwordConfirmationFailed = false;
+
+            if($scope.registrationForm.$valid) {
+                var url = huAppConfig.apiBaseUri + '/register'
+                $http.post(url, user)
+                    .success(function (data, status, headers, config) {
+                        alert('Registered');
+                        $state.transitionTo('profile');
+                    })
+                    .error(function (data, status, headers, config) {
+                        $scope.errorMessage = data.ResponseStatus.Message;
+                        alert('Error attempting to register');
+                    });
+            }
         }
+
     };
 }]);

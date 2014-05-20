@@ -1,4 +1,4 @@
-var huApp = angular.module('huApp', ['ngRoute', 'ngCookies', 'ui.router']);
+var huApp = angular.module('huApp', ['ngRoute', 'ngCookies', 'ui.router', 'ui.utils']);
 
 huApp.constant('huAppConfig', {version: '1.0.0', apiBaseUri: 'http://localhost/api'});
 huApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider',
