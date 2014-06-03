@@ -1,7 +1,7 @@
 <h1>Register Partial</h1>
 <p>{{ message }}</p>
 <div>
-    <form name="registrationForm" ng-submit="register(user)" novalidate>
+    <form name="registrationForm" ng-submit="register(user)" ng-controller="AuthenticationController" novalidate>
         <div class="form-group"  ng-class="{ 'has-error' : (registrationForm.username.$invalid && (registrationForm.username.$pristine || registrationForm.username.$dirty)) && submitted }">
             <label>username:</label>
             <input type="text" name="username" class="form-control" ng-model="user.username" required placeholder="username" />

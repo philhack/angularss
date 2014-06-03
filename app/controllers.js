@@ -1,3 +1,8 @@
+huApp.controller('ApplicationController', ['$rootScope','$scope', function($rootScope, $scope){
+    $rootScope.currentUser = null;
+    $rootScope.isAuthorized = false;
+}]);
+
 huApp.controller('LoginController', ['$scope', function($scope){
 }]);
 
@@ -11,7 +16,8 @@ huApp.controller('404Controller', ['$scope', function($scope){
 huApp.controller('RegisterController', ['$scope', function($scope){
 }]);
 
-huApp.controller('AuthenticationController', ['$scope', '$http', '$state', 'huAppConfig', function($scope, $http, $state, huAppConfig){
+huApp.controller('AuthenticationController', ['$rootScope','$scope', '$http', '$state', '$cookieStore', 'huAppConfig',
+                                                function($rootScope, $scope, $http, $state, $cookieStore, huAppConfig){
     $scope.login = function (user){
         $scope.submitted = true;
 
@@ -20,6 +26,9 @@ huApp.controller('AuthenticationController', ['$scope', '$http', '$state', 'huAp
             user.RememberMe = false;
             $http.post(url, user)
                 .success(function(data, status, headers, config){
+                    //$cookieStore.put('currentUser', user.username);
+                    $rootScope.currentUser = user.username;
+                    $rootScope.isAuthorized = true;
                     $state.transitionTo('profile');
                 })
                 .error(function(data, status, headers, config){
@@ -32,7 +41,10 @@ huApp.controller('AuthenticationController', ['$scope', '$http', '$state', 'huAp
         var url = huAppConfig.apiBaseUri + '/auth/logout';
         $http.post(url, {provider : "logout"})
         .success(function(data, status, headers, config){
-            $scope.user = null;
+            //$scope.user = null;
+            //$cookieStore.remove('currentUser');
+                $rootScope.currentUser = null;
+                $rootScope.isAuthorized = false;
             $state.transitionTo('login'); // Redirect to login state
             alert('Logged Out');
         })
@@ -54,6 +66,9 @@ huApp.controller('AuthenticationController', ['$scope', '$http', '$state', 'huAp
                 var url = huAppConfig.apiBaseUri + '/register'
                 $http.post(url, user)
                     .success(function (data, status, headers, config) {
+                        //$cookieStore.put('currentUser', user.username);
+                        $rootScope.currentUser = user.username;
+                        $rootScope.isAuthorized = true;
                         $state.transitionTo('profile');
                     })
                     .error(function (data, status, headers, config) {
