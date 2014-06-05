@@ -1,6 +1,10 @@
-huApp.controller('ApplicationController', ['$rootScope','$scope', function($rootScope, $scope){
-    $rootScope.currentUser = null;
-    $rootScope.isAuthorized = false;
+huApp.controller('ApplicationController', ['$rootScope','$scope', '$cookieStore', function($rootScope, $scope, $cookieStore){
+    var curUser = $cookieStore.get('currentUser');
+    $rootScope.currentUser = curUser != null ? curUser : '';
+    console.log('currentUser' + $rootScope.currentUser);
+    var isAuth = $cookieStore.get('isAuthorized');
+    $rootScope.isAuthorized = (isAuth != null || isAuth) ? isAuth : false;
+    console.log('isAuthorized' + $rootScope.isAuthorized);
 }]);
 
 huApp.controller('LoginController', ['$scope', function($scope){
@@ -27,8 +31,9 @@ huApp.controller('AuthenticationController', ['$rootScope','$scope', '$http', '$
             $http.post(url, user)
                 .success(function(data, status, headers, config){
                     //$cookieStore.put('currentUser', user.username);
-                    $rootScope.currentUser = user.username;
-                    $rootScope.isAuthorized = true;
+                    $cookieStore.put('currentUser', user.username);
+                    $cookieStore.put('isAuthorized', true);
+                    //$rootScope.isAuthorized = true;
                     $state.transitionTo('profile');
                 })
                 .error(function(data, status, headers, config){
@@ -43,8 +48,11 @@ huApp.controller('AuthenticationController', ['$rootScope','$scope', '$http', '$
         .success(function(data, status, headers, config){
             //$scope.user = null;
             //$cookieStore.remove('currentUser');
-                $rootScope.currentUser = null;
-                $rootScope.isAuthorized = false;
+                $cookieStore.remove('currentUser');
+                $cookieStore.remove('isAuthorized');
+
+                //$rootScope.currentUser = null;
+                //$rootScope.isAuthorized = false;
             $state.transitionTo('login'); // Redirect to login state
             alert('Logged Out');
         })
@@ -67,8 +75,10 @@ huApp.controller('AuthenticationController', ['$rootScope','$scope', '$http', '$
                 $http.post(url, user)
                     .success(function (data, status, headers, config) {
                         //$cookieStore.put('currentUser', user.username);
-                        $rootScope.currentUser = user.username;
-                        $rootScope.isAuthorized = true;
+                        //$rootScope.currentUser = user.username;
+                        //$rootScope.isAuthorized = true;
+                        $cookieStore.put('currentUser', user.username);
+                        $cookieStore.put('isAuthorized', true);
                         $state.transitionTo('profile');
                     })
                     .error(function (data, status, headers, config) {
