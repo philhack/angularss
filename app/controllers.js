@@ -1,9 +1,14 @@
 huApp.controller('ApplicationController', ['$rootScope','$scope', '$cookieStore', function($rootScope, $scope, $cookieStore){
+
     var curUser = $cookieStore.get('currentUser');
     $rootScope.currentUser = curUser != null ? curUser : '';
-    console.log('currentUser' + $rootScope.currentUser);
+
     var isAuth = $cookieStore.get('isAuthorized');
     $rootScope.isAuthorized = (isAuth != null || isAuth) ? isAuth : false;
+
+
+
+    console.log('currentUser' + $rootScope.currentUser);
     console.log('isAuthorized' + $rootScope.isAuthorized);
 }]);
 
@@ -32,7 +37,9 @@ huApp.controller('AuthenticationController', ['$rootScope','$scope', '$http', '$
                 .success(function(data, status, headers, config){
                     //$cookieStore.put('currentUser', user.username);
                     $cookieStore.put('currentUser', user.username);
+                    $rootScope.currentUser = user.username;
                     $cookieStore.put('isAuthorized', true);
+                    $rootScope.isAuthorized = true;
                     //$rootScope.isAuthorized = true;
                     $state.transitionTo('profile');
                 })
@@ -49,7 +56,9 @@ huApp.controller('AuthenticationController', ['$rootScope','$scope', '$http', '$
             //$scope.user = null;
             //$cookieStore.remove('currentUser');
                 $cookieStore.remove('currentUser');
+                $rootScope.currentUser = null;
                 $cookieStore.remove('isAuthorized');
+                $rootScope.isAuthorized = false;
 
                 //$rootScope.currentUser = null;
                 //$rootScope.isAuthorized = false;
@@ -78,7 +87,9 @@ huApp.controller('AuthenticationController', ['$rootScope','$scope', '$http', '$
                         //$rootScope.currentUser = user.username;
                         //$rootScope.isAuthorized = true;
                         $cookieStore.put('currentUser', user.username);
+                        $rootScope.currentUser = user.username;
                         $cookieStore.put('isAuthorized', true);
+                        $rootScope.isAuthorized = true;
                         $state.transitionTo('profile');
                     })
                     .error(function (data, status, headers, config) {
