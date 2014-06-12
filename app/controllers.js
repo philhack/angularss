@@ -60,18 +60,14 @@ huApp.controller('AuthenticationController', ['AuthService','$rootScope','$scope
             $scope.passwordConfirmationFailed = false;
 
             if($scope.registrationForm.$valid) {
-                var url = huAppConfig.apiBaseUri + '/register'
-                $http.post(url, user)
-                    .success(function (data, status, headers, config) {
-                        $cookieStore.put('currentUser', user.username);
-                        $rootScope.currentUser = user.username;
-                        $cookieStore.put('isAuthorized', true);
-                        $rootScope.isAuthorized = true;
-                        $state.transitionTo('profile');
-                    })
-                    .error(function (data, status, headers, config) {
-                        $scope.errorMessage = data.ResponseStatus.Message;
-                    });
+                var result = AuthService.register(user);
+                if(result.success) {
+                    $rootScope.currentUser = user.username;
+                    $rootScope.isAuthorized = true;
+                    $state.transitionTo('profile');
+                } else {
+                    $scope.errorMessage = result.errorMessage;
+                }
             }
         }
     };
