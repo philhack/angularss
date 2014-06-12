@@ -1,5 +1,6 @@
 huApp.factory('AuthService', function($http, $state, $cookieStore, huAppConfig) {
     var authResult;
+    var logout;
     var authResult = function (user) {
         var url = huAppConfig.apiBaseUri + '/auth/credentials?format=json';
         user.RememberMe = false;
@@ -19,12 +20,30 @@ huApp.factory('AuthService', function($http, $state, $cookieStore, huAppConfig) 
             });
         console.log(authResult.success);
         console.log(authResult.isAuthorized);
-    }
+        };
+
+    var logout = function (){
+        var url = huAppConfig.apiBaseUri + '/auth/logout';
+        $http.post(url, {provider : "logout"})
+            .success(function(data, status, headers, config){
+                $cookieStore.remove('currentUser');
+                $cookieStore.remove('isAuthorized');
+                logout.success = true;
+            })
+            .error(function(data, status, headers, config){
+                logout.success = false;
+                logout.errorMessage = data.ResponseStatus.Message;
+            });
+    };
 
     return {
         login: function (user) {
             authResult(user);
             return authResult;
+        },
+        logout: function(){
+            logout();
+            return logout;
         }
     };
 });

@@ -38,19 +38,16 @@ huApp.controller('AuthenticationController', ['AuthService','$rootScope','$scope
     };
 
     $scope.logout = function(){
-        var url = huAppConfig.apiBaseUri + '/auth/logout';
-        $http.post(url, {provider : "logout"})
-        .success(function(data, status, headers, config){
-                $cookieStore.remove('currentUser');
-                $rootScope.currentUser = null;
-                $cookieStore.remove('isAuthorized');
-                $rootScope.isAuthorized = false;
+        var result = AuthService.logout();
+        if(result.success){
+            $rootScope.currentUser = null;
+            $rootScope.isAuthorized = false;
             $state.transitionTo('login'); // Redirect to login state
             alert('Logged Out');
-        })
-        .error(function(data, status, headers, config){
+        } else {
+            console.log(result.errorMessage);
             alert('Error logging out');
-        });
+        }
     };
 
     $scope.register = function(user){
