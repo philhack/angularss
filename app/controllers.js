@@ -25,22 +25,17 @@ huApp.controller('AuthenticationController', ['AuthService','$rootScope','$scope
 
 
     $scope.login = function (user){
-        var result = [];
-        $scope.submitted = true;
+        user.RememberMe = false;
         if($scope.loginForm.$valid){
-
             AuthService.login(user).then(function(data){
-                    result = data;
-                    console.log('data=' + result);
-                    console.log('successful login');
-                    alert('logged in');
                     $state.transitionTo('profile');
                     $rootScope.currentUser = data.UserName;
                     $rootScope.isAuthorized = true;
             },
             function(errorMessage){
-               console.log('error logging in');
+               console.log('error logging in 1');
                $scope.errorMessage = errorMessage;
+                console.log('error logging in 2');
             });
         }
     };
@@ -60,7 +55,6 @@ huApp.controller('AuthenticationController', ['AuthService','$rootScope','$scope
 
     $scope.register = function(user){
         $scope.submitted = true;
-        console.log('registrationFormValid = ' + $scope.registrationForm.$valid)
 
         if(user.confirmPassword != user.password) {
             $scope.passwordConfirmationFailed = true;   //TODO: Replace with ui-validate or a directive
@@ -68,15 +62,14 @@ huApp.controller('AuthenticationController', ['AuthService','$rootScope','$scope
             $scope.passwordConfirmationFailed = false;
 
             if($scope.registrationForm.$valid) {
-                var result = AuthService.register(user);
-                console.log('start register from controller. Result.Success =' + result.success);
-                if(result.success) {
+                AuthService.register(user).then(function(data){
                     $rootScope.currentUser = user.username;
                     $rootScope.isAuthorized = true;
                     $state.transitionTo('profile');
-                } else {
-                    $scope.errorMessage = result.errorMessage;
-                }
+                },
+                function(errorMessage){
+                    $scope.errorMessage = errorMessage;
+                });
             }
         }
     };
