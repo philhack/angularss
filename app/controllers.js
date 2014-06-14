@@ -22,32 +22,36 @@ huApp.controller('RegisterController', ['$scope', function($scope){
 
 huApp.controller('AuthenticationController', ['AuthService','$rootScope','$scope', '$http', '$state', '$cookieStore', 'huAppConfig',
                                                 function(AuthService, $rootScope, $scope, $http, $state, $cookieStore, huAppConfig){
+
+
     $scope.login = function (user){
         $scope.submitted = true;
         if($scope.loginForm.$valid){
             var result = AuthService.login(user);
-            console.log(result);
+            console.log('login result ' + result.success);
             if(result.success){
+                console.log('successful login');
                 $state.transitionTo('profile');
                 $rootScope.currentUser = result.currentUser;
                 $rootScope.isAuthorized = result.isAuthorized;
             } else {
+                console.log('error logging in');
                 $scope.errorMessage = result.errorMessage;
             }
         }
     };
 
     $scope.logout = function(){
-        var result = AuthService.logout();
-        if(result.success){
+        AuthService.logout().then(function(data){
             $rootScope.currentUser = null;
             $rootScope.isAuthorized = false;
             $state.transitionTo('login'); // Redirect to login state
             alert('Logged Out');
-        } else {
-            console.log(result.errorMessage);
+        },
+        function(errorMessage){
+            console.log(errorMessage);
             alert('Error logging out');
-        }
+        });
     };
 
     $scope.register = function(user){
@@ -61,6 +65,7 @@ huApp.controller('AuthenticationController', ['AuthService','$rootScope','$scope
 
             if($scope.registrationForm.$valid) {
                 var result = AuthService.register(user);
+                console.log('start register from controller. Result.Success =' + result.success);
                 if(result.success) {
                     $rootScope.currentUser = user.username;
                     $rootScope.isAuthorized = true;

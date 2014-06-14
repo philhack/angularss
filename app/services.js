@@ -1,6 +1,5 @@
-huApp.factory('AuthService', function($http, $state, $cookieStore, huAppConfig) {
+huApp.factory('AuthService', function($http, $state, $cookieStore, huAppConfig, $q) {
     var authResult;
-    var logout;
     var register;
     var authResult = function (user) {
         var url = huAppConfig.apiBaseUri + '/auth/credentials?format=json';
@@ -19,52 +18,59 @@ huApp.factory('AuthService', function($http, $state, $cookieStore, huAppConfig) 
                 authResult.currentUser = null;
                 authResult.errorMessage = data.ResponseStatus.Message;
             });
-        console.log(authResult.success);
-        console.log(authResult.isAuthorized);
-        };
-
-    var logout = function (){
-        var url = huAppConfig.apiBaseUri + '/auth/logout';
-        $http.post(url, {provider : "logout"})
-            .success(function(data, status, headers, config){
-                $cookieStore.remove('currentUser');
-                $cookieStore.remove('isAuthorized');
-                logout.success = true;
-            })
-            .error(function(data, status, headers, config){
-                logout.success = false;
-                logout.errorMessage = data.ResponseStatus.Message;
-                console.log('logout failed: ' + logout.errorMessage);
-            });
-    };
+            console.log(authResult.success);
+            console.log(authResult.isAuthorized);
+     };
 
     var register = function(user){
         var url = huAppConfig.apiBaseUri + '/register'
         console.log('username = ' + user.username);
+        console.log('password = ' + user.password);
         $http.post(url, user)
             .success(function (data, status, headers, config) {
+                console.log('posting registration was successful');
                 $cookieStore.put('currentUser', user.username);
                 $cookieStore.put('isAuthorized', true);
                 register.success = true;
+                console.log('completed registration process');
             })
             .error(function (data, status, headers, config) {
+                console.log('start error during registration process');
                 register.success = false;
                 register.errorMessage = data.ResponseStatus.Message;
+                console.log(register.errorMessage);
+                console.log('end error during registration process');
             });
-    }
+    };
 
     return {
+        logout: function(){
+            var url = huAppConfig.apiBaseUri + '/auth/logout';
+            var deferred = $q.defer();
+
+            $http.post(url, {provider : "logout"}).success(function(data){
+                console.log('start successful logout');
+
+                deferred.resolve(data);
+                $cookieStore.remove('currentUser');
+                $cookieStore.remove('isAuthorized');
+
+                console.log('end successful logout');
+
+            }).error(function(){
+                console.log('end error during logout');
+                deferred.reject("An error occurred while logging out")
+            });
+            return deferred.promise;
+        },
         login: function (user) {
             authResult(user);
             return authResult;
-        },
-        logout: function(){
-            logout();
-            return logout;
         },
         register : function(user){
             register(user);
             return register;
         }
     };
+
 });
