@@ -25,19 +25,23 @@ huApp.controller('AuthenticationController', ['AuthService','$rootScope','$scope
 
 
     $scope.login = function (user){
+        var result = [];
         $scope.submitted = true;
         if($scope.loginForm.$valid){
-            var result = AuthService.login(user);
-            console.log('login result ' + result.success);
-            if(result.success){
-                console.log('successful login');
-                $state.transitionTo('profile');
-                $rootScope.currentUser = result.currentUser;
-                $rootScope.isAuthorized = result.isAuthorized;
-            } else {
-                console.log('error logging in');
-                $scope.errorMessage = result.errorMessage;
-            }
+
+            AuthService.login(user).then(function(data){
+                    result = data;
+                    console.log('data=' + result);
+                    console.log('successful login');
+                    alert('logged in');
+                    $state.transitionTo('profile');
+                    $rootScope.currentUser = data.UserName;
+                    $rootScope.isAuthorized = true;
+            },
+            function(errorMessage){
+               console.log('error logging in');
+               $scope.errorMessage = errorMessage;
+            });
         }
     };
 

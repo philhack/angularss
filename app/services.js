@@ -1,26 +1,5 @@
 huApp.factory('AuthService', function($http, $state, $cookieStore, huAppConfig, $q) {
-    var authResult;
     var register;
-    var authResult = function (user) {
-        var url = huAppConfig.apiBaseUri + '/auth/credentials?format=json';
-        user.RememberMe = false;
-        $http.post(url, user)
-            .success(function(data, status, headers, config){
-                $cookieStore.put('currentUser', user.username);
-                authResult.currentUser = user.username;
-                $cookieStore.put('isAuthorized', true);
-                authResult.isAuthorized = true;
-                authResult.success = true;
-            })
-            .error(function(data, status, headers, config){
-                authResult.success = false;
-                authResult.isAuthorized = false;
-                authResult.currentUser = null;
-                authResult.errorMessage = data.ResponseStatus.Message;
-            });
-            console.log(authResult.success);
-            console.log(authResult.isAuthorized);
-     };
 
     var register = function(user){
         var url = huAppConfig.apiBaseUri + '/register'
@@ -64,8 +43,20 @@ huApp.factory('AuthService', function($http, $state, $cookieStore, huAppConfig, 
             return deferred.promise;
         },
         login: function (user) {
-            authResult(user);
-            return authResult;
+            user.RememberMe = false;
+            var url = huAppConfig.apiBaseUri + '/auth/credentials?format=json';
+            var deferred = $q.defer();
+            $http.post(url, user).success(function(data){
+                deferred.resolve(data);
+                $cookieStore.put('currentUser', user.username);
+                $cookieStore.put('isAuthorized', true);
+
+                console.log('completed registration process');
+            }).error(function(data){
+               deferred.reject(data.ResponseStatus.Message)
+            });
+            return deferred.promise;
+
         },
         register : function(user){
             register(user);
